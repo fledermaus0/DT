@@ -2,11 +2,12 @@
 from PyQt5.QtWidgets import  QMainWindow,QWidget, QVBoxLayout, QLabel, QPushButton ,QGridLayout
 from PyQt5.QtGui import QIcon, QGuiApplication, QPixmap,QFont
 from PyQt5.QtCore import Qt
+from views.component.MenuButton import MenuButton
 
 class MainWindow(QMainWindow):
     def __init__(self):
         super().__init__()
-
+        self.buttons = []
         self.setWindowTitle("Datasets Tool")  
         self.setWindowIcon(QIcon("/icons/logo.png")) 
         self.set_default_size()
@@ -49,7 +50,15 @@ class MainWindow(QMainWindow):
         layout.addWidget(section1)
 
         section2 = QWidget()
-        section2.setStyleSheet("background-color: green;")  # Customize the background color
+        section2.setStyleSheet("background-color: green;")  
+        section2_layout = QGridLayout(section2)
+        for i in range(4):
+            for j in range(4):
+
+                button = MenuButton(f"Button {i*12 + j + 1}", "icons/logo.png", "#007bff", "#00aaff")
+                self.buttons.append(button)
+                section2_layout.addWidget(button, i, j)
+
         layout.addWidget(section2)
 
         section3 = QLabel("© fledermaus. All rights reserved.")
@@ -58,6 +67,10 @@ class MainWindow(QMainWindow):
         section3.setFont(QFont("Arial", 12))  # Customize the font
         section3.setMinimumHeight(int(self.height() * 0.1))
         section3.setMaximumHeight(int(self.height() * 0.1))
-        layout.addWidget(section3)                  
+        layout.addWidget(section3)         
+
+        @property
+        def Button(self,index):
+            return self.buttons[index]
         
     
